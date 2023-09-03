@@ -14,13 +14,14 @@
 </template>
 
 <script>
+import {id} from '@/utils/functions';
 export default {
   props: ["params", "index", "loading"],
   emits: ["input"],
   data() {
     return {
       value: this.params.value ?? "",
-      id: crypto.randomUUID(),
+      id: id(),
     };
   },
 };

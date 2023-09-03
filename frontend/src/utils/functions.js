@@ -35,3 +35,7 @@ export const createSalonsArr = (salons) => {
     if (!salons || !salons.length) return [];
     return salons.map((s) => ({ name: s.name, value: s.id }));
 }
+
+export function id() {
+    return new Date().getTime() + Math.ceil(Math.random() * 1000000).toString()
+}
