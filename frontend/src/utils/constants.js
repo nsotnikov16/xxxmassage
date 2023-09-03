@@ -1,5 +1,5 @@
-export const apiAdminUrl = process.env.VUE_APP_API_URL_ADMIN;
-export const apiUrl = process.env.VUE_APP_API_URL_MAIN;
+export const apiAdminUrl = process.env.NODE_ENV == 'production' ? '/api/admin' : 'http://127.0.0.1:8000/api/admin';
+export const apiUrl = process.env.NODE_ENV == 'production' ? '/api' : 'http://127.0.0.1:8000/api';
 
 export const defaultErrorApi = 'Произошла какая-то ошибка!';
 
@@ -27,7 +27,7 @@ export const defaultModalParams = {
         //     placeholder: 'Введите описание',
         // },
 
-        // Select 
+        // Select
         // {
         //     sort: 3,
         //     type: 'select',
@@ -40,7 +40,7 @@ export const defaultModalParams = {
         //     placeholder: 'Привязка к салону',
         // },
 
-        // Select 
+        // Select
         // {
         //     sort: 4,
         //     type: 'multiselect',
