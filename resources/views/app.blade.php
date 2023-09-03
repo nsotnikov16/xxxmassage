@@ -1,3 +1,3 @@
 @php
-    include base_path('frontend/dist/index.html')
+    include public_path('build/index.html')
 @endphp

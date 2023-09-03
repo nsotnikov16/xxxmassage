@@ -24,6 +24,7 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
+            //file_put_contents(__DIR__ . '/123' . time() . '.json', json_encode($e->getMessage(), JSON_UNESCAPED_UNICODE));
         });
     }
 }
