@@ -9,8 +9,6 @@ export default {
     state: {
         modal: { ...defaultModalParams },
         salons: [],
-        programms: [],
-        masters: [],
     },
     getters: {
         getDataModal(state) {
@@ -24,7 +22,7 @@ export default {
                 return salon[entity];
             }
             return [];
-        }
+        },
     },
     mutations: {
         setModalSettings(state, params) {
@@ -102,7 +100,7 @@ export default {
         async updateStatusRoom({ commit }, { roomId, status }) {
             try {
                 const response = await axios.patch(`${apiUrl}/rooms/${roomId}/updateStatus`, { status })
-                commit('updateProgrammInRoom', response.data);
+                commit('updateStatusRoom', response.data);
             } catch (error) {
                 return handleError(error);
             }
