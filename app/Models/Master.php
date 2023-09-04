@@ -15,6 +15,10 @@ class Master extends Model
     ];
 
     protected $fillable = ['name', 'salons', 'description'];
+
+    protected $attributes = [
+        'room_id' => 0
+    ];
     public function salons()
     {
         return $this->belongsToMany(Salon::class);

@@ -19,7 +19,8 @@ class Room extends Model
         'status' => 0,
         'time_start' => '00:00:00',
         'time_end' => '00:00:00',
-        'salon_id' => 0
+        'salon_id' => 0,
+        'programm_id' => 0
     ];
 
     public function salon()
