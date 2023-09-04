@@ -17,8 +17,7 @@ class Room extends Model
 
     protected $attributes = [
         'status' => 0,
-        'time_start' => '00:00:00',
-        'time_end' => '00:00:00',
+        'time_start' => '2023-01-01 00:00:00',
         'salon_id' => 0,
         'programm_id' => 0
     ];
