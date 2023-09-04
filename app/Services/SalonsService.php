@@ -97,6 +97,8 @@ class SalonsService
             $status = (int) request('status');
 
             $room->status = $status;
+            $room->time_start = now(); // Добавляем текущую дату и время
+
             $room->save();
 
             $result['data'] = $room;
