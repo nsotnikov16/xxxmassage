@@ -22,11 +22,11 @@ import Arrow from "../svg/Arrow.vue";
     </div>
     <div v-if="timeStart">
       <Time />
-      <span>{{ timeStart }} мин</span>
+      <span>{{ timeStart }}</span>
     </div>
     <div v-if="timeEnd">
       <Time />
-      <span>{{ timeEnd }} мин</span>
+      <span>{{ timeEnd }}</span>
     </div>
     <Arrow class="room__arrow" />
   </div>

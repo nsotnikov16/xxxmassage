@@ -10,7 +10,7 @@ import RoomBottom from "./room/RoomBottom.vue";
             <RoomTop
                 :programm="programm"
                 :masters="mastersRoom"
-                :timeStart="0"
+                :timeStart="time"
                 @click="toggleSpoiler"
             />
             <RoomBottom :salonId="salonId" :room="room" />
@@ -25,7 +25,18 @@ export default {
     data() {
         return {
             isOpen: false,
+            interval: null,
+            time: false,
         };
+    },
+    watch: {
+      /*   room() {
+            if (this.room.status && !this.interval) {
+                this.interval = setInterval(() => this.setTimerStart(), 1000);
+            } else if (!this.room.status) {
+                clearInterval(this.interval);
+            }
+        }, */
     },
     computed: {
         programm() {
@@ -34,14 +45,45 @@ export default {
         mastersRoom() {
             return this.masters.filter((m) => m.room_id == this.room.id);
         },
-        timeStart() {
-        //
-        },
     },
     methods: {
         toggleSpoiler() {
             this.isOpen = !this.isOpen;
         },
+        setTimerStart() {
+            const timeStart = this.room.time_start;
+
+            // Создаем объекты Date для первой и второй даты
+            const date1 = new Date(`${timeStart} GMT+0000`);
+            const date2 = new Date();
+
+            // Получаем разницу в миллисекундах между двумя датами
+            const diffMs = date2 - date1;
+
+            // Приводим разницу в миллисекундах к формату "чч:мм:сс"
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffMinutes = Math.floor((diffMs % 3600000) / 60000);
+            const diffSeconds = Math.floor((diffMs % 60000) / 1000);
+
+            // Форматируем разницу времени в формате "чч:мм:сс"
+            const formattedDiff = `${diffHours
+                .toString()
+                .padStart(2, "0")}:${diffMinutes
+                .toString()
+                .padStart(2, "0")}:${diffSeconds.toString().padStart(2, "0")}`;
+            this.time = formattedDiff;
+        },
+    },
+    unmounted() {
+        clearInterval(this.interval);
+    },
+    updated() {
+        console.log(this.room.status)
+    },
+    created() {
+        if (this.room.status) {
+            this.interval = setInterval(() => this.setTimerStart(), 1000);
+        }
     },
 };
 </script>
