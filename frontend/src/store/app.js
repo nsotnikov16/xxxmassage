@@ -23,6 +23,14 @@ export default {
             }
             return [];
         },
+        getInfoRoom: (state) => (salonId, roomId) => {
+            const salon = state.salons.find(s => s.id == salonId);
+            if (salon) {
+                const room = salon.rooms.find(r => r.id == roomId);
+                if (room) return room;
+            }
+            return {};
+        }
     },
     mutations: {
         setModalSettings(state, params) {
@@ -59,7 +67,10 @@ export default {
             const findSalon = state.salons.find(s => s.id == room.salon_id);
             if (findSalon) {
                 const findRoom = findSalon.rooms.find(r => r.id == room.id);
-                if (findRoom) findRoom.status = room.status;
+                if (findRoom) {
+                    findRoom.time_start = room.time_start
+                    findRoom.status = room.status;
+                }
             }
         }
     },

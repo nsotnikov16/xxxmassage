@@ -36,6 +36,20 @@ export const createSalonsArr = (salons) => {
     return salons.map((s) => ({ name: s.name, value: s.id }));
 }
 
-export function id() {
+export const id = () => {
     return new Date().getTime() + Math.ceil(Math.random() * 1000000).toString()
+}
+
+export const getFormatTime = (diffMs) => {
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffMinutes = Math.floor((diffMs % 3600000) / 60000);
+    const diffSeconds = Math.floor((diffMs % 60000) / 1000);
+    let formattedDiff = diffHours
+        ? diffHours.toString().padStart(2, "0") + ":"
+        : "";
+
+    formattedDiff += `${diffMinutes
+        .toString()
+        .padStart(2, "0")}:${diffSeconds.toString().padStart(2, "0")}`;
+    return formattedDiff;
 }

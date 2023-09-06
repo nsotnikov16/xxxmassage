@@ -10,7 +10,8 @@ import RoomBottom from "./room/RoomBottom.vue";
             <RoomTop
                 :programm="programm"
                 :masters="mastersRoom"
-                :timeStart="time"
+                :timeStart="timeStart"
+                :timeEnd="timeEnd"
                 @click="toggleSpoiler"
             />
             <RoomBottom :salonId="salonId" :room="room" />
@@ -19,71 +20,78 @@ import RoomBottom from "./room/RoomBottom.vue";
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { getFormatTime } from "@/utils/functions";
 export default {
     name: "Room",
     props: ["room", "masters", "programms", "salonId"],
     data() {
         return {
             isOpen: false,
-            interval: null,
-            time: false,
+            intervalStart: null,
+            timeStart: false,
+            timeEnd: false,
         };
     },
     watch: {
-      /*   room() {
-            if (this.room.status && !this.interval) {
-                this.interval = setInterval(() => this.setTimerStart(), 1000);
-            } else if (!this.room.status) {
-                clearInterval(this.interval);
-            }
-        }, */
+        status() {
+            this.setIntervalTimerStart();
+        },
+        programm(val) {
+            if (!val) this.timeEnd = false;
+        },
     },
     computed: {
+        ...mapGetters(["getInfoRoom"]),
         programm() {
             return this.programms.find((p) => p.id == this.room.programm_id);
         },
         mastersRoom() {
             return this.masters.filter((m) => m.room_id == this.room.id);
         },
+        status() {
+            return this.getInfoRoom(this.salonId, this.room.id).status;
+        },
     },
     methods: {
         toggleSpoiler() {
             this.isOpen = !this.isOpen;
         },
-        setTimerStart() {
-            const timeStart = this.room.time_start;
-
-            // Создаем объекты Date для первой и второй даты
+        setTimeStart(timeStart) {
             const date1 = new Date(`${timeStart} GMT+0000`);
             const date2 = new Date();
-
-            // Получаем разницу в миллисекундах между двумя датами
             const diffMs = date2 - date1;
+            this.timeStart = getFormatTime(diffMs);
+        },
+        setTimeEnd(timeStart) {
+            if (!this.programm || !this.programm.time) return;
+            const timeProgramm = Number(this.programm.time) * 60 * 1000;
+            if (!timeProgramm) return;
+            const date1 = new Date(`${timeStart} GMT+0000`).getTime();
+            const date2 = new Date().getTime();
+            const diffMs = timeProgramm - (date2 - date1) + 1000;
+            this.timeEnd = getFormatTime(diffMs);
+        },
+        setIntervalTimerStart() {
+            clearInterval(this.intervalStart);
+            this.timeStart = false;
+            this.timeEnd = false;
+            const room = this.getInfoRoom(this.salonId, this.room.id);
 
-            // Приводим разницу в миллисекундах к формату "чч:мм:сс"
-            const diffHours = Math.floor(diffMs / 3600000);
-            const diffMinutes = Math.floor((diffMs % 3600000) / 60000);
-            const diffSeconds = Math.floor((diffMs % 60000) / 1000);
-
-            // Форматируем разницу времени в формате "чч:мм:сс"
-            const formattedDiff = `${diffHours
-                .toString()
-                .padStart(2, "0")}:${diffMinutes
-                .toString()
-                .padStart(2, "0")}:${diffSeconds.toString().padStart(2, "0")}`;
-            this.time = formattedDiff;
+            if (room.status) {
+                this.intervalStart = setInterval(() => {
+                    this.setTimeStart(room.time_start);
+                    this.setTimeEnd(room.time_start);
+                }, 1000);
+            }
         },
     },
     unmounted() {
-        clearInterval(this.interval);
+        this.setIntervalTimerStart();
     },
-    updated() {
-        console.log(this.room.status)
-    },
+    updated() {},
     created() {
-        if (this.room.status) {
-            this.interval = setInterval(() => this.setTimerStart(), 1000);
-        }
+        this.setIntervalTimerStart();
     },
 };
 </script>
