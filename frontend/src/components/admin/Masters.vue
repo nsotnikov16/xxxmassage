@@ -161,6 +161,7 @@ export default {
           label: "Имя",
           value: master ? master.name : "",
           placeholder: "Введите имя",
+          required: true
         },
         {
           sort: 2,
@@ -177,6 +178,7 @@ export default {
           label: "Привязка к салонам",
           value: master && master.salons ? createSalonsArr(master.salons) : [],
           options: createSalonsArr(this.salons),
+          required: true
         },
       ];
     },

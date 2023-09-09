@@ -165,6 +165,7 @@ export default {
             label: "Название",
             value: room ? room.name : '',
             placeholder: "Введите название",
+            required: true
           },
           {
             sort: 2,
@@ -174,6 +175,7 @@ export default {
             label: "Салон",
             value: room && room.salon ? {name: room.salon.name, value: room.salon.id} : {},
             options: createSalonsArr(this.salons),
+            required: true
           },
         ]
     }

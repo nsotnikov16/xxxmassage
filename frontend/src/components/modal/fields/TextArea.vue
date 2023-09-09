@@ -9,6 +9,7 @@
       :placeholder="params.placeholder"
       @input="$emit('input', { index, value })"
       :disabled="loading"
+      :required="params.required"
     ></textarea>
   </div>
 </template>

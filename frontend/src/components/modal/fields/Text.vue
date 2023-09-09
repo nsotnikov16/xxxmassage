@@ -9,6 +9,7 @@
       v-model="value"
       @input="$emit('input', { index, value })"
       :disabled="loading"
+      :required="params.required"
     />
   </div>
 </template>

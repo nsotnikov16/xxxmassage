@@ -17,6 +17,7 @@
       @select="$emit('input', {index, value})"
       @remove="$emit('input', {index, value})"
       :disabled="loading"
+      :allowEmpty="!params.required"
     >
       <template #noResult>
           Поиск не дал результатов

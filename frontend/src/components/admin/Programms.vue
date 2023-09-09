@@ -167,6 +167,7 @@ export default {
           label: "Название программы",
           value: programm ? programm.name : "",
           placeholder: "Введите название",
+          required: true
         },
         {
           sort: 2,
@@ -175,6 +176,7 @@ export default {
           label: "Цена",
           value: programm ? programm.price : "",
           placeholder: "Введите цену",
+          required: true
         },
         {
           sort: 3,
@@ -183,6 +185,7 @@ export default {
           label: "Время (мин)",
           value: programm ? programm.time : "",
           placeholder: "Введите время (мин)",
+          required: true
         },
         {
           sort: 4,
@@ -193,6 +196,7 @@ export default {
           value:
             programm && programm.salons ? createSalonsArr(programm.salons) : [],
           options: createSalonsArr(this.salons),
+          required: true
         },
       ];
     },

@@ -14,6 +14,7 @@
       :disabled="loading"
       @change="$emit('input', { index, value })"
       @select="$emit('input', { index, value })"
+      :allowEmpty="!params.required"
     >
       <template v-slot:singleLabel="{ option }"> {{ option.name }}</template>
     </multiselect>
