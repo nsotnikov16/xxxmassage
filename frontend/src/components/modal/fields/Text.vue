@@ -10,6 +10,8 @@
       @input="$emit('input', { index, value })"
       :disabled="loading"
       :required="params.required"
+      :minlength="params.minlength"
+      :maxnlength="params.maxlength"
     />
   </div>
 </template>

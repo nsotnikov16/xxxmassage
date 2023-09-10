@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('rooms', function (Blueprint $table) {
-            $table->timestamp('time_start', $precision = 0)->change();
-            if (Schema::hasColumn('rooms', 'time_end')) {
-                $table->dropColumn('time_end');
-            }
+        Schema::table('salons', function (Blueprint $table) {
+            $table->text('description')->nullable()->change();
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-
+        Schema::table('salons', function (Blueprint $table) {
+            //
+        });
     }
 };

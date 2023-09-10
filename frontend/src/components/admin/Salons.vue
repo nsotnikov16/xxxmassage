@@ -151,7 +151,8 @@ export default {
             label: "Название салона",
             value: salon ? salon.name : '',
             placeholder: "Введите название",
-            required: true
+            required: true,
+            minlength: 3
           },
           {
             sort: 2,
