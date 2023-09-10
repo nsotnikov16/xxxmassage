@@ -6,6 +6,7 @@ use App\Models\Master;
 use App\Models\Programm;
 use App\Models\Room;
 use App\Models\Salon;
+use Illuminate\Support\Carbon;
 
 /**
  * Class SalonsService.
@@ -15,7 +16,14 @@ class SalonsService
 
     public function getSalons()
     {
-        return Salon::with(['masters', 'programms', 'rooms'])->whereHas('rooms')->orderByRaw('id')->get();
+        $salons = Salon::with(['masters', 'programms', 'rooms'])->whereHas('rooms')->orderByRaw('id')->get();
+
+        $salons->each(function ($salon) {
+            $salon->rooms->each(function ($room) {
+                $room->time_start = Carbon::parse($room->time_start)->toIso8601String();
+            });
+        });
+        return $salons;
     }
     public function getAllInfo()
     {
@@ -97,7 +105,7 @@ class SalonsService
             $status = (int) request('status');
 
             $room->status = $status;
-            $room->time_start = date('Y-m-d H:i:s'); // Добавляем текущую дату и время
+            $room->time_start = now(); // Добавляем текущую дату и время
 
             $room->save();
 

@@ -58,8 +58,8 @@ export default {
             this.isOpen = !this.isOpen;
         },
         setTimeStart(timeStart) {
-            const date1 = new Date(`${timeStart} GMT+0000`);
-            const date2 = new Date();
+            const date1 = Date.parse(`${timeStart}`);
+            const date2 = new Date().getTime();
             const diffMs = date2 - date1;
             this.timeStart = getFormatTime(diffMs);
         },
@@ -67,7 +67,7 @@ export default {
             if (!this.programm || !this.programm.time) return;
             const timeProgramm = Number(this.programm.time) * 60 * 1000;
             if (!timeProgramm) return;
-            const date1 = new Date(`${timeStart} GMT+0000`).getTime();
+            const date1 = Date.parse(`${timeStart}`);
             const date2 = new Date().getTime();
             const diffMs = timeProgramm - (date2 - date1) + 1000;
             if (diffMs <= 0) return this.timeEnd = '';
