@@ -58,7 +58,7 @@ export const getErrorsValidateForm = (fields) => {
     const errors = [];
     if (fields && fields.length) {
         fields.forEach(field => {
-            if (field.required && !(field.value.value || field.value.length)) {
+            if (field.required && !(field.value.value || field.value.length || (field.value > 0))) {
                 errors.push(`Не заполнено обязательное поле "${field.label}"`);
             }
             if (typeof field.value == 'string') {
