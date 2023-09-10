@@ -75,7 +75,14 @@ export default {
         ...mapActions(["getAllInfo"]),
     },
     async created() {
-        if (!this.salons.length) {
+        let fromAdmin;
+        try {
+            fromAdmin = this.$router.options.history.state.back.includes('/admin')
+        } catch (error) {
+            fromAdmin = false;
+        }
+
+        if (!this.salons.length || fromAdmin) {
             this.loading = true;
             await this.getAllInfo();
             this.loading = false;

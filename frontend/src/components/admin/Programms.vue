@@ -1,29 +1,29 @@
 <template>
-  <div className="col-10">
-    <div class="px-4 d-flex justify-content-end">
+  <div className="col-lg-10">
+    <div class="px-4 d-flex justify-content-end m-lg-0 mt-3">
       <button class="btn btn-primary" @click="setModalCreate">
         Добавить программу
       </button>
     </div>
 
-    <div className="row px-4">
+    <div className="row px-lg-4">
       <h4 v-if="loading">Загрзука...</h4>
       <h4 v-if="!programms.length && !loading" class="text-danger">
         {{ error ? error : "Программы отсутствуют" }}
       </h4>
       <div className="p-3" v-for="programm in programms" :key="programm.id">
         <div
-          className="d-flex p-3 justify-content-between rounded border border-gray"
+          className="d-flex flex-column flex-lg-row p-3 justify-content-between rounded border border-gray"
         >
-          <div className="d-flex align-items-center">
-            <h5 className="m-0">
+          <div className="d-flex align-items-center flex-wrap mb-3 m-lg-0">
+            <h5 className="mb-0 me-3">
               {{ programm.name }}
               {{ programm.time ? `(${programm.time})` : "" }}
             </h5>
-            <p v-if="programm.salons.length" class="mb-0 ms-3">
+            <p v-if="programm.salons.length" class="mb-0 me-3">
               {{ programm.salons.map((s) => s.name).join(", ") }}
             </p>
-            <b class="text-danger ms-3" v-if="programm.price >= 0"
+            <b class="text-danger me-3" v-if="programm.price >= 0"
               >{{ programm.price }} руб.</b
             >
           </div>

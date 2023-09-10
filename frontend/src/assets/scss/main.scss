@@ -28,6 +28,7 @@
     background: #e7f1ff;
     border: 1px solid #dee2e6;
     border-radius: 4px;
+    flex-wrap: wrap;
     > div {
       display: flex;
       align-items: center;
@@ -98,8 +99,27 @@
     }
   }
 
+  @media(max-width: 560px) {
+    &__block {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    &__spoiler-top {
+        flex-direction: column;
+        align-items: baseline;
+    }
+  }
+
   .multiselect {
-    max-width: 250px;
+    max-width: 350px;
+
+    &--active {
+        .multiselect__tags-wrap {
+            margin-bottom: 10px;
+        }
+    }
 
     &__select {
       height: 35px;
@@ -136,13 +156,13 @@
       overflow: initial;
     }
 
-    &__input {
+   /*  &__input {
       position: absolute !important;
       top: 0%;
       left: calc(100% + 5px);
       margin-bottom: 0;
       height: 100%;
-    }
+    } */
 
     &__single {
       margin-bottom: 0;
@@ -178,6 +198,10 @@
         background-color: gray;
         border-radius: 20px;
       }
+    }
+
+    @media(max-width: 560px) {
+        max-width: initial;
     }
   }
 }

@@ -70,6 +70,7 @@ export default {
             const date1 = new Date(`${timeStart} GMT+0000`).getTime();
             const date2 = new Date().getTime();
             const diffMs = timeProgramm - (date2 - date1) + 1000;
+            if (diffMs <= 0) return this.timeEnd = '';
             this.timeEnd = getFormatTime(diffMs);
         },
         setIntervalTimerStart() {

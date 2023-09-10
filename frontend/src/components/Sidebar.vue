@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary col-2 align-self-baseline">
+  <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary col-lg-2 align-self-baseline">
     <ul class="nav nav-pills flex-column mb-0">
       <li class="nav-item" v-for="(link, index) in links" :key="index">
         <router-link
