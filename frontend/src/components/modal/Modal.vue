@@ -26,6 +26,7 @@
                         v-if="modal.fields.length"
                         :fields_props="modal.fields"
                         :loading="loading"
+                        :errors="errors"
                     />
                     <div
                         v-if="modal.btnClose || modal.btnSave"
@@ -53,6 +54,7 @@
 import ModalBody from "./ModalBody.vue";
 import ButtonSave from "./buttons/ButtonSave.vue";
 import ButtonClose from "./buttons/ButtonClose.vue";
+import {getErrorsValidateForm} from '@/utils/functions';
 </script>
 
 <script>
@@ -63,6 +65,7 @@ export default {
     data() {
         return {
             loading: false,
+            errors: ''
         };
     },
     computed: {
@@ -72,12 +75,20 @@ export default {
         ...mapActions(["setModalSettings"]),
         close() {
             this.setModalSettings({ show: false });
+            this.errors = [];
         },
         async submit() {
             this.loading = true;
-            await this.modal.submit();
+            if (this.validiteForm()) {
+                await this.modal.submit();
+            }
             this.loading = false;
         },
+        validiteForm() {
+            this.errors = getErrorsValidateForm(this.modal.fields);
+            if (this.errors.length) return false;
+            return true;
+        }
     },
     mounted() {
         const onClickOutside = (e) => {

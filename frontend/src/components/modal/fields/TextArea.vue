@@ -1,6 +1,6 @@
 <template>
   <div class="form-group mb-2">
-    <label v-if="params.label" class="mb-2" :for="id">{{ params.label }}</label>
+    <label v-if="params.label" class="mb-2" :for="id">{{ params.label }} <span v-if="params.required" class="required text-danger">*</span></label>
     <textarea
       class="form-control"
       :id="id"
@@ -9,9 +9,6 @@
       :placeholder="params.placeholder"
       @input="$emit('input', { index, value })"
       :disabled="loading"
-      :required="params.required"
-      :minlength="params.minlength"
-      :maxnlength="params.maxlength"
     ></textarea>
   </div>
 </template>

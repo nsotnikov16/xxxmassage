@@ -30,6 +30,9 @@
         @input="input"
       />
     </div>
+    <div v-if="errors && errors.length" class="modal-errors">
+        <span class="text-danger d-block" v-for="(e, i) in errors" :key="i">{{ e }}</span>
+    </div>
   </div>
 </template>
 
@@ -44,7 +47,7 @@ import MultiSelectComponent from "./fields/MultiSelect.vue";
 import { mapActions, mapState } from "vuex";
 export default {
   name: "ModalBody",
-  props: [ "loading", 'fields_props'],
+  props: [ "loading", 'fields_props', 'errors'],
   emits: ["submit"],
 
   computed: {

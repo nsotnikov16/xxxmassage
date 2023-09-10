@@ -1,6 +1,6 @@
 <template>
   <div class="form-group mb-2">
-    <label v-if="params.label" class="mb-2">{{ params.label }}</label>
+    <label v-if="params.label" class="mb-2">{{ params.label }} <span v-if="params.required" class="required text-danger">*</span></label>
     <multiselect
       v-model="value"
       :multiple="true"

@@ -53,3 +53,27 @@ export const getFormatTime = (diffMs) => {
         .padStart(2, "0")}:${diffSeconds.toString().padStart(2, "0")}`;
     return formattedDiff;
 }
+
+export const getErrorsValidateForm = (fields) => {
+    const errors = [];
+    if (fields && fields.length) {
+        fields.forEach(field => {
+            if (field.required && !(field.value.value || field.value.length)) {
+                errors.push(`Не заполнено обязательное поле "${field.label}"`);
+            }
+            if (typeof field.value == 'string') {
+                if (field.value.length < field.minlength) {
+                    errors.push(`
+                        Минимальное количество символов в поле "${field.label}" должно составлять - ${field.minlength}
+                    `);
+                }
+                if (field.value.length > field.minlength) {
+                    errors.push(`
+                        Максимальное количество символов в поле "${field.label}" должно составлять - ${field.minlength}
+                    `);
+                }
+            }
+        })
+    }
+    return errors;
+}

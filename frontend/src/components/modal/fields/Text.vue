@@ -1,6 +1,6 @@
 <template>
   <div class="form-group mb-2">
-    <label v-if="params.label" class="mb-2" :for="id">{{ params.label }}</label>
+    <label v-if="params.label" class="mb-2" :for="id">{{ params.label }} <span v-if="params.required" class="required text-danger">*</span></label>
     <input
       :type="params.type"
       class="form-control"
@@ -9,9 +9,6 @@
       v-model="value"
       @input="$emit('input', { index, value })"
       :disabled="loading"
-      :required="params.required"
-      :minlength="params.minlength"
-      :maxnlength="params.maxlength"
     />
   </div>
 </template>
