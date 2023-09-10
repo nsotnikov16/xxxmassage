@@ -152,7 +152,6 @@ export default {
             value: salon ? salon.name : '',
             placeholder: "Введите название",
             required: true,
-            minlength: 3
           },
           {
             sort: 2,

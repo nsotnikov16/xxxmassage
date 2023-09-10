@@ -58,16 +58,21 @@ export const getErrorsValidateForm = (fields) => {
     const errors = [];
     if (fields && fields.length) {
         fields.forEach(field => {
-            if (field.required && !(field.value.value || field.value.length || (field.value > 0))) {
+            const val = field.value
+            if (field.required && (field.name == 'price' || field.name == 'time') && val === 0) {
+                return errors.push(`${field.label} не может быть 0`)
+            }
+
+            if (field.required && !(val.value || val.length || (val > 0))) {
                 errors.push(`Не заполнено обязательное поле "${field.label}"`);
             }
-            if (typeof field.value == 'string') {
-                if (field.value.length < field.minlength) {
+            if (typeof val === 'string') {
+                if (val.length < field.minlength) {
                     errors.push(`
                         Минимальное количество символов в поле "${field.label}" должно составлять - ${field.minlength}
                     `);
                 }
-                if (field.value.length > field.minlength) {
+                if (val.length > field.maxlength) {
                     errors.push(`
                         Максимальное количество символов в поле "${field.label}" должно составлять - ${field.minlength}
                     `);
