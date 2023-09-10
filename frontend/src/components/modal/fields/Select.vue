@@ -9,14 +9,12 @@
       :placeholder="params.placeholder"
       :options="options"
       :searchable="true"
-      selectLabel="Выберите из списка"
+      :selectLabel="params.placeholder"
       selectedLabel="Выбрано"
       :disabled="loading"
       @change="$emit('input', { index, value })"
       @select="$emit('input', { index, value })"
-      :allowEmpty="!params.required"
     >
-      <template v-slot:singleLabel="{ option }"> {{ option.name }}</template>
     </multiselect>
   </div>
 </template>
