@@ -20,16 +20,19 @@ import Salon from "@/components/Salon.vue";
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import io from "socket.io-client";
+import { mapActions, mapMutations, mapState } from "vuex";
 export default {
     data() {
         return {
             loading: false,
         };
     },
+    watch: {},
     computed: {
         ...mapState({
             salons: (s) => s.app.salons,
+            socket: s => s.app.socket
         }),
         roomsAll() {
             let rooms = 0;
@@ -73,11 +76,13 @@ export default {
     },
     methods: {
         ...mapActions(["getAllInfo"]),
+        ...mapMutations(["setAllInfo"]),
     },
     async created() {
         let fromAdmin;
         try {
-            fromAdmin = this.$router.options.history.state.back.includes('/admin')
+            fromAdmin =
+                this.$router.options.history.state.back.includes("/admin");
         } catch (error) {
             fromAdmin = false;
         }
@@ -88,5 +93,8 @@ export default {
             this.loading = false;
         }
     },
+    updated() {
+        this.socket.emit('update-state', JSON.stringify({salons: this.salons}));
+    }
 };
 </script>

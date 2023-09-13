@@ -4,11 +4,13 @@ import { createDataModal } from "@/utils/functions";
 import { apiUrl } from "@/utils/constants";
 import { handleError } from "@/utils/functions";
 import axios from "axios";
+import io from 'socket.io-client'
 
 export default {
     state: {
         modal: { ...defaultModalParams },
         salons: [],
+        socket: io('http://localhost:3000')
     },
     getters: {
         getDataModal(state) {
