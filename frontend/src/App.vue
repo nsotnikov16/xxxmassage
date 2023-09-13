@@ -12,22 +12,23 @@ import Modal from "@/components/modal/Modal.vue";
 </script>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 export default {
     data: () => {
         return {};
     },
     computed: {
         ...mapState({ socket: (s) => s.app.socket }),
+
+    },
+    methods: {
         ...mapMutations(["setAllInfo"]),
     },
     created() {
-        console.log(this.setAllInfo)
         this.socket.on("update-state", (json) => {
             if (this.setAllInfo) {
                 this.setAllInfo(JSON.parse(json));
             }
-
         });
     },
 };

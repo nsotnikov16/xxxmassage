@@ -10,7 +10,7 @@ export default {
     state: {
         modal: { ...defaultModalParams },
         salons: [],
-        socket: io('http://localhost:3000')
+        socket: io(process.env.NODE_ENV == 'production' ? 'http://194.58.109.158:3000' : 'http://localhost:3000')
     },
     getters: {
         getDataModal(state) {
@@ -117,6 +117,6 @@ export default {
             } catch (error) {
                 return handleError(error);
             }
-        }
+        },
     },
 }
