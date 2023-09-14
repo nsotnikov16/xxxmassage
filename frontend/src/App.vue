@@ -18,17 +18,16 @@ export default {
         return {};
     },
     computed: {
-        ...mapState({ socket: (s) => s.app.socket }),
-
+        ...mapState({ socket: (s) => s.app.socket, appId: (s) => s.app.appId }),
     },
     methods: {
         ...mapMutations(["setAllInfo"]),
     },
     created() {
         this.socket.on("update-state", (json) => {
-            if (this.setAllInfo) {
-                this.setAllInfo(JSON.parse(json));
-            }
+            const data = JSON.parse(json);
+            if (data.appId === this.appId) return;
+            this.setAllInfo({salons: data.salons});
         });
     },
 };

@@ -32,7 +32,8 @@ export default {
     computed: {
         ...mapState({
             salons: (s) => s.app.salons,
-            socket: s => s.app.socket
+            socket: s => s.app.socket,
+            appId: s => s.app.appId
         }),
         roomsAll() {
             let rooms = 0;
@@ -76,7 +77,6 @@ export default {
     },
     methods: {
         ...mapActions(["getAllInfo"]),
-        ...mapMutations(["setAllInfo"]),
     },
     async created() {
         let fromAdmin;
@@ -93,8 +93,5 @@ export default {
             this.loading = false;
         }
     },
-    updated() {
-        this.socket.emit('update-state', JSON.stringify({salons: this.salons}));
-    }
 };
 </script>

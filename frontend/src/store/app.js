@@ -1,6 +1,6 @@
 
 import { defaultModalParams } from "@/utils/constants";
-import { createDataModal } from "@/utils/functions";
+import { createDataModal, id } from "@/utils/functions";
 import { apiUrl } from "@/utils/constants";
 import { handleError } from "@/utils/functions";
 import axios from "axios";
@@ -10,7 +10,8 @@ export default {
     state: {
         modal: { ...defaultModalParams },
         salons: [],
-        socket: io(process.env.NODE_ENV == 'production' ? 'http://194.58.109.158:3000' : 'http://localhost:3000')
+        socket: io(process.env.NODE_ENV == 'production' ? 'http://194.58.109.158:3000' : 'http://localhost:3000'),
+        appId: id()
     },
     getters: {
         getDataModal(state) {
@@ -57,12 +58,16 @@ export default {
                     }
                 })
             })
+            state.socket.emit('update-state', JSON.stringify({salons: state.salons, appId: state.appId}));
         },
         updateProgrammInRoom(state, room) {
             const findSalon = state.salons.find(s => s.id == room.salon_id);
             if (findSalon) {
                 const findRoom = findSalon.rooms.find(r => r.id == room.id);
-                if (findRoom) findRoom.programm_id = room.programm_id;
+                if (findRoom) {
+                    findRoom.programm_id = room.programm_id;
+                    state.socket.emit('update-state', JSON.stringify({salons: state.salons, appId: state.appId}));
+                }
             }
         },
         updateStatusRoom(state, room) {
@@ -72,6 +77,7 @@ export default {
                 if (findRoom) {
                     findRoom.time_start = room.time_start
                     findRoom.status = room.status;
+                    state.socket.emit('update-state', JSON.stringify({salons: state.salons, appId: state.appId}));
                 }
             }
         }
