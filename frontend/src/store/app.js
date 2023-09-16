@@ -6,11 +6,13 @@ import { handleError } from "@/utils/functions";
 import axios from "axios";
 import io from 'socket.io-client'
 
+const useSocket = process.env.VUE_APP_USE_SOCKET_IO === 'true';
+
 export default {
     state: {
         modal: { ...defaultModalParams },
         salons: [],
-        socket: io(process.env.NODE_ENV == 'production' ? 'http://194.58.109.158:3000' : 'http://localhost:3000'),
+        socket: useSocket ? io(process.env.VUE_APP_SOCKET_IO_HOST) : { on: () => { }, emit: () => { } },
         appId: id()
     },
     getters: {
@@ -58,7 +60,7 @@ export default {
                     }
                 })
             })
-            state.socket.emit('update-state', JSON.stringify({salons: state.salons, appId: state.appId}));
+            state.socket.emit('update-state', JSON.stringify({ salons: state.salons, appId: state.appId }));
         },
         updateProgrammInRoom(state, room) {
             const findSalon = state.salons.find(s => s.id == room.salon_id);
@@ -66,7 +68,7 @@ export default {
                 const findRoom = findSalon.rooms.find(r => r.id == room.id);
                 if (findRoom) {
                     findRoom.programm_id = room.programm_id;
-                    state.socket.emit('update-state', JSON.stringify({salons: state.salons, appId: state.appId}));
+                    state.socket.emit('update-state', JSON.stringify({ salons: state.salons, appId: state.appId }));
                 }
             }
         },
@@ -77,7 +79,7 @@ export default {
                 if (findRoom) {
                     findRoom.time_start = room.time_start
                     findRoom.status = room.status;
-                    state.socket.emit('update-state', JSON.stringify({salons: state.salons, appId: state.appId}));
+                    state.socket.emit('update-state', JSON.stringify({ salons: state.salons, appId: state.appId }));
                 }
             }
         }
