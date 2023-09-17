@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Services\ResponseService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -13,13 +14,20 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): Response
+    public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        $result = [];
+        try {
+            $request->authenticate();
 
-        $request->session()->regenerate();
+            $request->session()->regenerate();
 
-        return response()->noContent();
+            $result['data'] = 'Вы успешно авторизованы!';
+        } catch (\Throwable $e) {
+            ResponseService::setError($e, $result);
+        }
+
+        return ResponseService::json($result);
     }
 
     /**
