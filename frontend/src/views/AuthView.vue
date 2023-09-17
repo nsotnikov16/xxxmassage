@@ -15,9 +15,5 @@ import Forgot from "../components/auth/Forgot.vue";
 </template>
 
 <script>
-export default {
-    mounted() {
-        console.log(this.$route.name);
-    },
-};
+export default {};
 </script>
