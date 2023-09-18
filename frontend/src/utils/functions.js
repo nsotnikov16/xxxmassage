@@ -1,3 +1,4 @@
+import router from "@/router";
 
 export const handleError = (error) => {
     try {
@@ -81,4 +82,8 @@ export const getErrorsValidateForm = (fields) => {
         })
     }
     return errors;
+}
+
+export const protectedRoute = (isAuthorized) => {
+    if (!isAuthorized) router.push({name: 'auth-login'});
 }

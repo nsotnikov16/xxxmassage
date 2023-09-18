@@ -1,6 +1,6 @@
 <template>
     <ul class="nav nav-pills justify-content-center">
-        <li class="nav-item">
+        <li class="nav-item" v-if="isAuthorized">
             <router-link
                 :to="{ name: 'home' }"
                 class="nav-link"
@@ -8,7 +8,7 @@
                 >Салоны</router-link
             >
         </li>
-        <li>
+        <li v-if="isAuthorized">
             <router-link
                 :to="{ name: 'admin' }"
                 class="nav-link"
@@ -16,13 +16,16 @@
                 >Администратор</router-link
             >
         </li>
-        <li>
+        <li v-if="!isAuthorized">
             <router-link
                 :to="{ name: 'auth' }"
                 class="nav-link"
                 active-class="active"
                 >Авторизация</router-link
             >
+        </li>
+        <li v-else>
+            <button class="nav-link">Выйти</button>
         </li>
         <!-- <li>
       <router-link to="/support" class="nav-link" active-class="active"
@@ -33,8 +36,10 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
     name: "HeaderNavigation",
+    computed: mapGetters(["isAuthorized"]),
 };
 </script>
 

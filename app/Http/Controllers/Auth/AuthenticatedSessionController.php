@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Services\ResponseService;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Services\ResponseService;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Auth\LoginRequest;
+use Exception;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -18,11 +20,17 @@ class AuthenticatedSessionController extends Controller
     {
         $result = [];
         try {
+
+            $user = User::where('email', $request->email)->first();
+
+            if (!$user) {
+                throw new Exception('Неверный логин или пароль', 400);
+            }
             $request->authenticate();
 
             $request->session()->regenerate();
 
-            $result['data'] = 'Вы успешно авторизованы!';
+            $result['data'] = ['name' => $user->name, 'email' => $user->email, 'id' => $user->id];
         } catch (\Throwable $e) {
             ResponseService::setError($e, $result);
         }

@@ -21,7 +21,8 @@ import Salon from "@/components/Salon.vue";
 
 <script>
 import io from "socket.io-client";
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
+import { protectedRoute } from "@/utils/functions";
 export default {
     data() {
         return {
@@ -35,6 +36,7 @@ export default {
             socket: s => s.app.socket,
             appId: s => s.app.appId
         }),
+        ...mapGetters(['isAuthorized']),
         roomsAll() {
             let rooms = 0;
             if (this.salons.length) {
@@ -79,6 +81,7 @@ export default {
         ...mapActions(["getAllInfo"]),
     },
     async created() {
+        protectedRoute(this.isAuthorized);
         let fromAdmin;
         try {
             fromAdmin =
