@@ -20,18 +20,21 @@ use Illuminate\Support\Facades\Route;
 */
 require __DIR__ . '/auth.php';
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
+Route::/* middleware(['auth:sanctum'])-> */get('/user', function (Request $request) {
+    return auth()->user();
 });
 
-Route::get('/all', [SalonsController::class, 'index']);
-Route::patch('/masters/{master_id}/updateRoom/{room_id}', [SalonsController::class, 'updateRoomForMaster']);
-Route::patch('/rooms/{room_id}/updateProgramm', [SalonsController::class, 'updateProgrammInRoom']);
-Route::patch('/rooms/{room_id}/updateStatus', [SalonsController::class, 'updateStatusRoom']);
+Route::middleware(['auth'])->group(function () {
 
-Route::prefix('admin')->group(function () {
-    Route::resource('salons', AdminSalonsController::class);
-    Route::resource('programms', AdminProgrammsController::class);
-    Route::resource('masters', AdminMastersController::class);
-    Route::resource('rooms', AdminRoomsController::class);
+    Route::get('/all', [SalonsController::class, 'index']);
+    Route::patch('/masters/{master_id}/updateRoom/{room_id}', [SalonsController::class, 'updateRoomForMaster']);
+    Route::patch('/rooms/{room_id}/updateProgramm', [SalonsController::class, 'updateProgrammInRoom']);
+    Route::patch('/rooms/{room_id}/updateStatus', [SalonsController::class, 'updateStatusRoom']);
+
+    Route::prefix('admin')->group(function () {
+        Route::resource('salons', AdminSalonsController::class);
+        Route::resource('programms', AdminProgrammsController::class);
+        Route::resource('masters', AdminMastersController::class);
+        Route::resource('rooms', AdminRoomsController::class);
+    });
 });

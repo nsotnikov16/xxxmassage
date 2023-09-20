@@ -24,8 +24,8 @@ export default {
     actions: {
         async getUser({commit}) {
             try {
+                await axios.get(`${apiUrl}/sanctum/csrf-cookie'`);
                 const response = await axios.get(`${apiUrl}/user`);
-                console.log(response.data)
                 commit('setUser', response.data);
             } catch (error) {
                 return handleError(error)
