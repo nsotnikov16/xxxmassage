@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Services;
-use Illuminate\Http\Client\Response;
 /**
  * Class ResponseService.
  */
@@ -21,15 +20,14 @@ class ResponseService
 
             if (isset($result['data']))
                 $response = $result['data'];
-
-            return Response::json($response, $code);
+            return response()->json($response, $code);
         } catch (\Throwable $th) {
             $code = $th->getCode();
 
             if (!$code || ($code > 599))
                 $code = 500;
             $message = $th->getMessage() ?? $defaultError;
-            return Response::json(['message' => $message], $code);
+            return response()->json(['message' => $message], $code);
         }
     }
 
