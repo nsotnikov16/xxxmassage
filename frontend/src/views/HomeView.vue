@@ -20,10 +20,15 @@ import Salon from "@/components/Salon.vue";
 </template>
 
 <script>
-import io from "socket.io-client";
 import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import { protectedRoute } from "@/utils/functions";
 export default {
+    metaInfo: {
+      // if no subcomponents specify a metaInfo.title, this title will be used
+      title: 'Default Title',
+      // all titles will be injected into this template
+      titleTemplate: '%s | My Awesome Webapp'
+    },
     data() {
         return {
             loading: false,
@@ -33,10 +38,10 @@ export default {
     computed: {
         ...mapState({
             salons: (s) => s.app.salons,
-            socket: s => s.app.socket,
-            appId: s => s.app.appId
+            socket: (s) => s.app.socket,
+            appId: (s) => s.app.appId,
         }),
-        ...mapGetters(['isAuthorized']),
+        ...mapGetters(["isAuthorized"]),
         roomsAll() {
             let rooms = 0;
             if (this.salons.length) {
@@ -76,22 +81,22 @@ export default {
             }
             return masters.length;
         },
+        fromAdmin() {
+            try {
+                return this.$router.options.history.state.back.includes(
+                    "/admin"
+                );
+            } catch (error) {
+                return false;
+            }
+        },
     },
     methods: {
-        ...mapActions(["getAllInfo", 'getUser']),
+        ...mapActions(["getAllInfo", "getUser"]),
     },
     async created() {
-        this.getUser();
         protectedRoute(this.isAuthorized);
-        let fromAdmin;
-        try {
-            fromAdmin =
-                this.$router.options.history.state.back.includes("/admin");
-        } catch (error) {
-            fromAdmin = false;
-        }
-
-        if (!this.salons.length || fromAdmin) {
+        if (!this.salons.length || this.fromAdmin) {
             this.loading = true;
             await this.getAllInfo();
             this.loading = false;

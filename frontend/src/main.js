@@ -7,9 +7,15 @@ import router from './router'
 import store from './store'
 
 import axios from 'axios';
+//import Meta from 'vue-meta';
 
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.withCredentials = true;
 
-createApp(App).use(store).use(router).mount('#app')
+(async () => {
+    const vue = createApp(App).use(store).use(router);
+    await store.dispatch('getUser');
+    vue.mount('#app')
+})()
+

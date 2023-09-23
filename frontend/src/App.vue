@@ -29,11 +29,10 @@ export default {
         ...mapMutations(["setAllInfo"]),
         ...mapActions(['getUser'])
     },
-    created() {
-
+    async created() {
         this.socket.on("update-state", (json) => {
             const data = JSON.parse(json);
-            if (data.appId === this.appId) return;
+            if (data.appId === this.appId || !this.isAuthorized) return;
             this.setAllInfo({ salons: data.salons });
         });
     },

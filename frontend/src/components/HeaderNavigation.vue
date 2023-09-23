@@ -25,7 +25,7 @@
             >
         </li>
         <li v-else>
-            <button class="nav-link">Выйти</button>
+            <button @click="logout" class="nav-link">Выйти</button>
         </li>
         <!-- <li>
       <router-link to="/support" class="nav-link" active-class="active"
@@ -36,10 +36,11 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
     name: "HeaderNavigation",
     computed: mapGetters(["isAuthorized"]),
+    methods: mapActions(['logout'])
 };
 </script>
 

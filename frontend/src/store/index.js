@@ -3,10 +3,13 @@ import admin from './admin/main';
 import app from './app';
 import auth from './auth';
 
-export default createStore({
-  modules: {
-    admin,
-    app,
-    auth
-  },
+const store = createStore({
+    modules: {
+        admin,
+        app,
+        auth
+    },
 })
+
+//await store.dispatch('getUser');
+export default store;

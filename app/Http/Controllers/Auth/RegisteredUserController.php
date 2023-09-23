@@ -39,6 +39,7 @@ class RegisteredUserController extends Controller
             event(new Registered($user));
 
             Auth::login($user);
+            $result['data'] = $user;
         } catch (\Throwable $e) {
             ResponseService::setError($e, $result);
         }

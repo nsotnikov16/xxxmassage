@@ -23,14 +23,11 @@ class AuthenticatedSessionController extends Controller
 
             $user = User::where('email', $request->email)->first();
 
-            if (!$user) {
-                throw new Exception('Неверный логин или пароль', 400);
-            }
             $request->authenticate();
 
             $request->session()->regenerate();
 
-            $result['data'] = ['name' => $user->name, 'email' => $user->email, 'id' => $user->id];
+            $result['data'] = $request->user();
         } catch (\Throwable $e) {
             ResponseService::setError($e, $result);
         }
