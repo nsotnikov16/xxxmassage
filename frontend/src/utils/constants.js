@@ -1,6 +1,6 @@
-export const apiAdminUrl = process.env.NODE_ENV == 'production' ? '/api/admin' : 'http://127.0.0.1:8000/api/admin';
-export const apiUrl = process.env.NODE_ENV == 'production' ? '/api' : 'http://127.0.0.1:8000/api';
-export const url = process.env.NODE_ENV == 'production' ? '/' : 'http://127.0.0.1:8000/'
+export const apiAdminUrl = process.env.NODE_ENV == 'production' ? '/api/admin' : 'http://localhost:8000/api/admin';
+export const apiUrl = process.env.NODE_ENV == 'production' ? '/api' : 'http://localhost:8000/api';
+export const url = process.env.NODE_ENV == 'production' ? '' : 'http://localhost:8000'
 export const defaultErrorApi = 'Произошла какая-то ошибка!';
 
 export const defaultModalParams = {
