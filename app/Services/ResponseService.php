@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Services;
-use Illuminate\Http\Response;
+use Illuminate\Http\Client\Response;
 /**
  * Class ResponseService.
  */
