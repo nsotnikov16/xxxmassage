@@ -78,9 +78,10 @@ export default {
         },
     },
     methods: {
-        ...mapActions(["getAllInfo"]),
+        ...mapActions(["getAllInfo", 'getUser']),
     },
     async created() {
+        this.getUser();
         protectedRoute(this.isAuthorized);
         let fromAdmin;
         try {

@@ -30,7 +30,7 @@ export default {
         ...mapActions(['getUser'])
     },
     created() {
-        this.getUser();
+
         this.socket.on("update-state", (json) => {
             const data = JSON.parse(json);
             if (data.appId === this.appId) return;

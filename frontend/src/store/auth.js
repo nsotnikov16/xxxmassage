@@ -1,5 +1,5 @@
 
-import { apiUrl } from "@/utils/constants";
+import { apiUrl, url } from "@/utils/constants";
 import { handleError } from "@/utils/functions";
 import axios from "axios";
 
@@ -24,7 +24,6 @@ export default {
     actions: {
         async getUser({commit}) {
             try {
-                await axios.get(`${apiUrl}/sanctum/csrf-cookie'`);
                 const response = await axios.get(`${apiUrl}/user`);
                 commit('setUser', response.data);
             } catch (error) {
@@ -33,6 +32,7 @@ export default {
         },
         async login({ commit }, { email, password }) {
             try {
+                await axios.get(`${url}/sanctum/csrf-cookie/`);
                 if (!email || !password) throw new Error('Не заполнены все обязательные поля');
                 const response = await axios.post(`${apiUrl}/login`, { email, password })
                 commit('setUser', response.data)
