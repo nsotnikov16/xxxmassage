@@ -23,7 +23,7 @@ import Loader from "@/components/Loader.vue";
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import { protectedRoute } from "@/utils/functions";
 export default {
     data() {
@@ -90,6 +90,7 @@ export default {
     },
     methods: {
         ...mapActions(["getSalons", "getUser"]),
+        ...mapMutations(['updateStateSocket'])
     },
     async created() {
         protectedRoute(this.isAuthorized);
@@ -98,6 +99,8 @@ export default {
             await this.getSalons();
         }
         this.loading = false;
+
+        if (this.fromAdmin) this.updateStateSocket();
     },
 };
 </script>

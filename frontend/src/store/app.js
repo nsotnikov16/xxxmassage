@@ -58,7 +58,7 @@ export default {
                     }
                 })
             })
-            state.socket.emit('update-state', JSON.stringify({ salons: state.salons, appId: state.appId }));
+            this.commit('updateStateSocket');
         },
         updateProgrammInRoom(state, room) {
             const findSalon = state.salons.find(s => s.id == room.salon_id);
@@ -66,7 +66,7 @@ export default {
                 const findRoom = findSalon.rooms.find(r => r.id == room.id);
                 if (findRoom) {
                     findRoom.programm_id = room.programm_id;
-                    state.socket.emit('update-state', JSON.stringify({ salons: state.salons, appId: state.appId }));
+                    this.commit('updateStateSocket');
                 }
             }
         },
@@ -77,9 +77,12 @@ export default {
                 if (findRoom) {
                     findRoom.time_start = room.time_start
                     findRoom.status = room.status;
-                    state.socket.emit('update-state', JSON.stringify({ salons: state.salons, appId: state.appId }));
+                    this.commit('updateStateSocket');
                 }
             }
+        },
+        updateStateSocket(state) {
+            state.socket.emit('update-state', JSON.stringify({ salons: state.salons, appId: state.appId }));
         }
     },
     actions: {
