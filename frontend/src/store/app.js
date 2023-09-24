@@ -47,10 +47,8 @@ export default {
         setModalFields(state, params) {
             state.modal.fields = params;
         },
-        setAllInfo(state, data) {
+        setSalons(state, data) {
             if (data.salons) state.salons = data.salons;
-            if (data.masters) state.masters = data.masters;
-            if (data.programms) state.programms = data.programms;
         },
         updateRoomForMasters(state, master) {
             state.salons.forEach(s => {
@@ -94,10 +92,10 @@ export default {
         setModalFields({ commit }, params) {
             commit('setModalFields', params);
         },
-        async getAllInfo({ commit }) {
+        async getSalons({ commit }) {
             try {
                 const response = await axios.get(`${apiUrl}/all`);
-                commit('setAllInfo', response.data);
+                commit('setSalons', response.data);
             } catch (error) {
                 return handleError(error);
             }

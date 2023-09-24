@@ -14,7 +14,7 @@ import Loader from "../Loader.vue";
             <h4 v-if="errorCondition && !loading && !loadingSalons" class="text-danger">
                 {{ error ? error : errorDefault }}
             </h4>
-            <slot></slot>
+            <slot v-if="salons.length"></slot>
         </div>
     </div>
 </template>

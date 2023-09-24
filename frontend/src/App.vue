@@ -26,14 +26,14 @@ export default {
         ...mapGetters(['isAuthorized'])
     },
     methods: {
-        ...mapMutations(["setAllInfo"]),
+        ...mapMutations(["setSalons"]),
         ...mapActions(['getUser'])
     },
     async created() {
         this.socket.on("update-state", (json) => {
             const data = JSON.parse(json);
             if (data.appId === this.appId || !this.isAuthorized) return;
-            this.setAllInfo({ salons: data.salons });
+            this.setSalons({ salons: data.salons });
         });
     },
 };

@@ -92,13 +92,13 @@ export default {
         },
     },
     methods: {
-        ...mapActions(["getAllInfo", "getUser"]),
+        ...mapActions(["getSalons", "getUser"]),
     },
     async created() {
         protectedRoute(this.isAuthorized);
         if (!this.salons.length || this.fromAdmin) {
             this.loading = true;
-            await this.getAllInfo();
+            await this.getSalons();
             this.loading = false;
         }
     },
