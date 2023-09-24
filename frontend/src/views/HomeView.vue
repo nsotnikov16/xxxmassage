@@ -1,37 +1,34 @@
 <script setup>
 import TotalInfo from "@/components/TotalInfo.vue";
 import Salon from "@/components/Salon.vue";
+import Loader from "@/components/Loader.vue";
 </script>
 
 <template>
     <div class="container">
         <h1>Мониторинг комнат</h1>
-        <TotalInfo
-            :roomsAll="roomsAll"
-            :roomsBusy="roomsBusy"
-            :mastersBusy="mastersBusy"
-        />
-        <Salon v-for="salon in salons" :key="salon.id" :salon="salon" />
-        <p v-if="loading" class="h3 text-primary">Получаем информацию...</p>
+        <Loader v-if="loading"></Loader>
         <h2 v-if="!loading && (!salons || !salons.length)" class="text-danger">
             Салоны отсутствуют
         </h2>
+        <div v-if="!loading && salons.length">
+            <TotalInfo
+                :roomsAll="roomsAll"
+                :roomsBusy="roomsBusy"
+                :mastersBusy="mastersBusy"
+            />
+            <Salon v-for="salon in salons" :key="salon.id" :salon="salon" />
+        </div>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import { protectedRoute } from "@/utils/functions";
 export default {
-    metaInfo: {
-      // if no subcomponents specify a metaInfo.title, this title will be used
-      title: 'Default Title',
-      // all titles will be injected into this template
-      titleTemplate: '%s | My Awesome Webapp'
-    },
     data() {
         return {
-            loading: false,
+            loading: true,
         };
     },
     watch: {},
@@ -96,11 +93,11 @@ export default {
     },
     async created() {
         protectedRoute(this.isAuthorized);
+
         if (!this.salons.length || this.fromAdmin) {
-            this.loading = true;
             await this.getSalons();
-            this.loading = false;
         }
+        this.loading = false;
     },
 };
 </script>
