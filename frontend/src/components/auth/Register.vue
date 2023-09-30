@@ -108,7 +108,7 @@ export default {
                 });
             } finally {
                 this.disabled = false;
-                this.buttonText = "Войти";
+                this.buttonText = "Зарегистрироваться";
             }
         },
     },

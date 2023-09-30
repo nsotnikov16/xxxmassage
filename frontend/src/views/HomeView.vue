@@ -93,7 +93,7 @@ export default {
         ...mapMutations(['updateStateSocket'])
     },
     async created() {
-        protectedRoute(this.isAuthorized);
+        if (!protectedRoute(this.isAuthorized)) return;
 
         if (!this.salons.length || this.fromAdmin) {
             await this.getSalons();

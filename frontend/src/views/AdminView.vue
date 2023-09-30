@@ -24,7 +24,7 @@ import { mapGetters } from "vuex";
 export default {
     computed: mapGetters(["isAuthorized"]),
     created() {
-        protectedRoute(this.isAuthorized);
+        if (!protectedRoute(this.isAuthorized)) return;
     },
 };
 </script>

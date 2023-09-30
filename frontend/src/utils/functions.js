@@ -86,4 +86,5 @@ export const getErrorsValidateForm = (fields) => {
 
 export const protectedRoute = (isAuthorized) => {
     if (!isAuthorized) router.push({name: 'auth-login'});
+    return isAuthorized;
 }
