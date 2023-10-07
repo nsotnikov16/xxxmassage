@@ -1,6 +1,8 @@
 <script setup>
 import Container from "./Container.vue";
 import ButtonsCard from "./ButtonsCard.vue";
+import ModalMaster from "@/utils/modal/ModalMaster";
+const modal = new ModalMaster();
 </script>
 
 <template>
@@ -10,7 +12,7 @@ import ButtonsCard from "./ButtonsCard.vue";
         :error="error"
         :errorCondition="!masters.length"
         errorDefault="Мастерицы отсутствуют"
-        @setModalCreate="setModalCreate"
+        @setModalCreate="() => modal.setModalCreate()"
     >
         <div className="p-3" v-for="master in masters" :key="master.id">
             <div
