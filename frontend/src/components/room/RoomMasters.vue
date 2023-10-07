@@ -4,7 +4,7 @@ import Multiselect from "vue-multiselect";
 </script>
 
 <template>
-    <div class="room__block">
+    <div class="room__block room__block_master">
         <div class="room__block-name">
             <Person />
             <b>Мастер:</b>
@@ -25,10 +25,12 @@ import Multiselect from "vue-multiselect";
                 @select="changeMaster"
                 @remove="(val) => changeMaster(val, 'delete')"
                 :disabled="disabled"
+                tag-position="bottom"
             >
                 <template #noResult> Поиск не дал результатов </template>
             </multiselect>
         </div>
+        <button class="btn btn-primary p-1 ms-sm-2"><dt>+</dt></button>
     </div>
 </template>
 
