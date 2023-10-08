@@ -1,6 +1,8 @@
 <script setup>
 import Container from "./Container.vue";
 import ButtonsCard from "./ButtonsCard.vue";
+import ModalProgramm from "@/utils/modal/ModalProgramm";
+const modal = new ModalProgramm();
 </script>
 
 <template>
@@ -10,7 +12,7 @@ import ButtonsCard from "./ButtonsCard.vue";
         :error="error"
         :errorCondition="!programms.length"
         errorDefault="Программы отсутствуют"
-        @setModalCreate="setModalCreate"
+        @setModalCreate="() => modal.setModalCreate()"
     >
         <div className="p-3" v-for="programm in programms" :key="programm.id">
             <div
@@ -31,8 +33,8 @@ import ButtonsCard from "./ButtonsCard.vue";
                     >
                 </div>
                 <ButtonsCard
-                    @setModalDelete="setModalDelete(programm)"
-                    @setModalEdit="setModalEdit(programm)"
+                    @setModalDelete="() => modal.setModalDelete(programm)"
+                    @setModalEdit="() => modal.setModalEdit(programm)"
                 />
             </div>
         </div>
@@ -40,8 +42,7 @@ import ButtonsCard from "./ButtonsCard.vue";
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from "vuex";
-import { createSalonsArr } from "@/utils/functions";
+import { mapActions, mapState } from "vuex";
 export default {
     name: "AdminProgramms",
     data() {
@@ -55,145 +56,11 @@ export default {
             programms: (s) => s.admin.programms,
             salons: (s) => s.admin.salons,
         }),
-        ...mapGetters(["getDataModal"]),
     },
     methods: {
-        ...mapActions([
-            "setModalSettings",
-            "getAdminProgramms",
-            "createAdminProgramm",
-            "updateAdminProgramm",
-            "deleteAdminProgramm",
-            "getAdminSalons",
-        ]),
-
-        setModalEdit(programm) {
-            const params = {
-                show: true,
-                title: "Редактировать программу " + programm.name,
-                fields: this.getFields(programm),
-                btnSave: { title: "Сохранить" },
-                btnClose: { title: "Закрыть" },
-                submit: async () => {
-                    const data = this.getDataModal;
-                    const response = await this.updateAdminProgramm({
-                        id: programm.id,
-                        data,
-                    });
-                    if (response.error) {
-                        this.setModalSettings({
-                            title: response.error,
-                        });
-                    } else {
-                        this.setModalSettings({
-                            title: "Успешно обновлено!",
-                        });
-                    }
-                    this.setModalSettings({ fields: [], btnSave: false });
-                },
-            };
-
-            this.setModalSettings(params);
-        },
-
-        setModalCreate() {
-            const params = {
-                show: true,
-                title: "Добавить программу",
-                fields: this.getFields(),
-                btnSave: { title: "Добавить" },
-                btnClose: { title: "Закрыть" },
-                submit: async () => {
-                    const data = this.getDataModal;
-                    const response = await this.createAdminProgramm(data);
-                    if (response.error) {
-                        this.setModalSettings({
-                            title: response.error,
-                        });
-                    } else {
-                        this.setModalSettings({
-                            title: "Добавлено успешно!",
-                        });
-                    }
-                    this.setModalSettings({ fields: [], btnSave: false });
-                },
-            };
-            this.setModalSettings(params);
-        },
-
-        setModalDelete({ name, id }) {
-            const params = {
-                show: true,
-                title: `Вы уверены что хотите удалить программу ${name}?`,
-                fields: [],
-                btnSave: { title: "Да" },
-                btnClose: { title: "Нет" },
-                submit: async () => {
-                    const response = await this.deleteAdminProgramm(id);
-                    if (response.error) {
-                        this.setModalSettings({
-                            title: response.error,
-                        });
-                    } else {
-                        this.setModalSettings({
-                            title: "Успешно удалено!",
-                        });
-                    }
-                    this.setModalSettings({
-                        fields: [],
-                        btnSave: false,
-                        btnClose: { title: "Закрыть" },
-                    });
-                },
-            };
-            this.setModalSettings(params);
-        },
-        getFields(programm) {
-            return [
-                {
-                    sort: 1,
-                    type: "text",
-                    name: "name",
-                    label: "Название программы",
-                    value: programm ? programm.name : "",
-                    placeholder: "Введите название",
-                    required: true,
-                },
-                {
-                    sort: 2,
-                    type: "number",
-                    name: "price",
-                    label: "Цена",
-                    value: programm ? programm.price : "",
-                    placeholder: "Введите цену",
-                    required: true,
-                },
-                {
-                    sort: 3,
-                    type: "number",
-                    name: "time",
-                    label: "Время (мин)",
-                    value: programm ? programm.time : "",
-                    placeholder: "Введите время (мин)",
-                    required: true,
-                },
-                {
-                    sort: 4,
-                    type: "multiselect",
-                    name: "salons",
-                    placeholder: "Выберите из списка",
-                    label: "Привязка к салонам",
-                    value:
-                        programm && programm.salons
-                            ? createSalonsArr(programm.salons)
-                            : [],
-                    options: createSalonsArr(this.salons),
-                    required: true,
-                },
-            ];
-        },
+        ...mapActions(["getAdminProgramms", "getAdminSalons"]),
     },
-    async created() {
+    async mounted() {
         if (!this.programms.length) {
             this.loading = true;
             let result = await this.getAdminProgramms();

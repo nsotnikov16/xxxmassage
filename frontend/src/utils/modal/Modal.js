@@ -51,7 +51,7 @@ export default class Modal {
     }
 
     async submitCreate() {
-        const data = this.store.getters.getDataModal;
+        const data = this.getDataModal();
         const response = await this.store.dispatch(this.actions.create, data);
         this.reset({ title: response.error ?? this.titleSuccess.create })
     }
@@ -63,13 +63,13 @@ export default class Modal {
             fields: this.getFields(entity),
             btnSave: this.btnSave.edit,
             btnClose: this.btnClose.edit,
-            submit: this.submitEdit.bind(this),
+            submit: this.submitEdit.bind(this, entity),
         };
         this.setSettingsStore(params);
     }
 
     async submitEdit(entity) {
-        const data = this.getDataModal;
+        const data = this.getDataModal();
         const response = await this.store.dispatch(this.actions.edit, {
             id: entity.id,
             data,
@@ -117,5 +117,9 @@ export default class Modal {
 
     setSettingsStore(settings) {
         this.store.dispatch('setModalSettings', settings);
+    }
+
+    getDataModal() {
+        return this.store.getters.getDataModal;
     }
 }

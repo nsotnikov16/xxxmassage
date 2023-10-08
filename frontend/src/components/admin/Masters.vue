@@ -37,7 +37,7 @@ const modal = new ModalMaster();
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
     name: "AdminMasters",
     data() {
@@ -51,7 +51,6 @@ export default {
             masters: (s) => s.admin.masters,
             salons: (s) => s.admin.salons,
         }),
-        ...mapGetters(["getDataModal"]),
     },
     methods: {
         ...mapActions(["getAdminMasters", "getAdminSalons"]),
