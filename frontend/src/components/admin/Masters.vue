@@ -46,15 +46,11 @@ export default {
             error: false,
         };
     },
-    computed: {
-        ...mapState({
-            masters: (s) => s.admin.masters,
-            salons: (s) => s.admin.salons,
-        }),
-    },
-    methods: {
-        ...mapActions(["getAdminMasters", "getAdminSalons"]),
-    },
+    computed: mapState({
+        masters: (s) => s.admin.masters,
+        salons: (s) => s.admin.salons,
+    }),
+    methods: mapActions(["getAdminMasters", "getAdminSalons"]),
     async mounted() {
         if (!this.masters.length) {
             this.loading = true;

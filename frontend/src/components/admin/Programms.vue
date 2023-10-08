@@ -51,15 +51,11 @@ export default {
             error: false,
         };
     },
-    computed: {
-        ...mapState({
-            programms: (s) => s.admin.programms,
-            salons: (s) => s.admin.salons,
-        }),
-    },
-    methods: {
-        ...mapActions(["getAdminProgramms", "getAdminSalons"]),
-    },
+    computed: mapState({
+        programms: (s) => s.admin.programms,
+        salons: (s) => s.admin.salons,
+    }),
+    methods: mapActions(["getAdminProgramms", "getAdminSalons"]),
     async mounted() {
         if (!this.programms.length) {
             this.loading = true;
