@@ -6,7 +6,6 @@ export default class Modal {
         create: 'Добавить мастера',
         edit: 'Редактировать',
         delete: 'Вы уверены что хотите удалить?',
-
     }
 
     titleSuccess = {
@@ -35,8 +34,8 @@ export default class Modal {
 
     store = useStore();
 
-    setModalEdit(entity) {
-
+    constructor(settings) {
+        this.setVarsFromParams(settings);
     }
 
     setModalCreate() {
@@ -48,39 +47,75 @@ export default class Modal {
             btnClose: this.btnClose.create,
             submit: this.submitCreate.bind(this),
         };
-        this.store.dispatch('setModalSettings', params);
-    }
-
-    setModalDelete(entity) {
-
+        this.setSettingsStore(params);
     }
 
     async submitCreate() {
         const data = this.store.getters.getDataModal;
         const response = await this.store.dispatch(this.actions.create, data);
-        if (response.error) {
-            this.store.dispatch('setModalSettings', {
-                title: response.error,
-            });
-        } else {
-            this.store.dispatch('setModalSettings', {
-                title: this.titleSuccess.create,
-            });
-        }
-        this.store.dispatch('setModalSettings', { fields: [], btnSave: false });
+        this.reset({ title: response.error ?? this.titleSuccess.create })
     }
 
-    submitEdit() {
-
+    setModalEdit(entity) {
+        const params = {
+            show: true,
+            title: this.title.edit,
+            fields: this.getFields(entity),
+            btnSave: this.btnSave.edit,
+            btnClose: this.btnClose.edit,
+            submit: this.submitEdit.bind(this),
+        };
+        this.setSettingsStore(params);
     }
 
-    submitDelete() {
+    async submitEdit(entity) {
+        const data = this.getDataModal;
+        const response = await this.store.dispatch(this.actions.edit, {
+            id: entity.id,
+            data,
+        });
+        this.reset({ title: response.error ?? this.titleSuccess.edit })
+    }
 
+    setModalDelete(entity) {
+        const params = {
+            show: true,
+            title: this.title.delete,
+            fields: [],
+            btnSave: this.btnSave.delete,
+            btnClose: this.btnClose.delete,
+            submit: this.submitDelete.bind(this, entity.id)
+        };
+        this.setSettingsStore(params);
+    }
+
+    async submitDelete(id) {
+        const response = await this.store.dispatch(this.actions.delete, id);
+        this.reset({ title: response.error ?? this.titleSuccess.delete })
     }
 
     getFields() {
-
+        return [];
     }
 
+    reset(settings = {}) {
+        this.setSettingsStore({
+            fields: [],
+            btnSave: false,
+            btnClose: { title: 'Закрыть' },
+            title: '',
+            submit: () => { },
+            ...settings
+        })
+    }
 
+    setVarsFromParams(settings) {
+        if (typeof settings === 'object') {
+            Object.entries(settings).forEach(([key, value]) => this[key] = value);
+        }
+    }
+
+    setSettingsStore(settings) {
+        this.store.dispatch('setModalSettings', settings);
+    }
 }

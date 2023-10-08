@@ -10,7 +10,19 @@ class ModalMaster extends Modal {
     }
 
     actions = {
-        create: 'createAdminMaster'
+        create: 'createAdminMaster',
+        edit: 'updateAdminMaster',
+        delete: 'deleteAdminMaster',
+    }
+
+    setModalEdit(master) {
+        this.title.edit = "Редактировать мастера " + master.name
+        super.setModalEdit(master);
+    }
+
+    setModalDelete(master) {
+        this.title.delete = `Вы уверены что хотите удалить мастера ${master.name}?`
+        super.setModalDelete(master);
     }
 
     getFields(master) {

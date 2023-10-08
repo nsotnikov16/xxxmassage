@@ -28,8 +28,8 @@ const modal = new ModalMaster();
                     >
                 </div>
                 <ButtonsCard
-                    @setModalDelete="setModalDelete(master)"
-                    @setModalEdit="setModalEdit(master)"
+                    @setModalDelete="() => modal.setModalDelete(master)"
+                    @setModalEdit="() => modal.setModalEdit(master)"
                 />
             </div>
         </div>
@@ -38,7 +38,6 @@ const modal = new ModalMaster();
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
-import { createSalonsArr } from "@/utils/functions";
 export default {
     name: "AdminMasters",
     data() {
@@ -55,130 +54,9 @@ export default {
         ...mapGetters(["getDataModal"]),
     },
     methods: {
-        ...mapActions([
-            "setModalSettings",
-            "getAdminMasters",
-            "createAdminMaster",
-            "updateAdminMaster",
-            "deleteAdminMaster",
-            "getAdminSalons",
-        ]),
-
-        setModalEdit(master) {
-            const params = {
-                show: true,
-                title: "Редактировать мастера " + master.name,
-                fields: this.getFields(master),
-                btnSave: { title: "Сохранить" },
-                btnClose: { title: "Закрыть" },
-                submit: async () => {
-                    const data = this.getDataModal;
-                    const response = await this.updateAdminMaster({
-                        id: master.id,
-                        data,
-                    });
-                    if (response.error) {
-                        this.setModalSettings({
-                            title: response.error,
-                        });
-                    } else {
-                        this.setModalSettings({
-                            title: "Успешно обновлено!",
-                        });
-                    }
-                    this.setModalSettings({ fields: [], btnSave: false });
-                },
-            };
-            this.setModalSettings(params);
-        },
-
-        setModalCreate() {
-            const params = {
-                show: true,
-                title: "Добавить мастера",
-                fields: this.getFields(),
-                btnSave: { title: "Добавить" },
-                btnClose: { title: "Закрыть" },
-                submit: async () => {
-                    const data = this.getDataModal;
-                    const response = await this.createAdminMaster(data);
-                    if (response.error) {
-                        this.setModalSettings({
-                            title: response.error,
-                        });
-                    } else {
-                        this.setModalSettings({
-                            title: "Добавлено успешно!",
-                        });
-                    }
-                    this.setModalSettings({ fields: [], btnSave: false });
-                },
-            };
-            this.setModalSettings(params);
-        },
-
-        setModalDelete({ name, id }) {
-            const params = {
-                show: true,
-                title: `Вы уверены что хотите удалить мастера ${name}?`,
-                fields: [],
-                btnSave: { title: "Да" },
-                btnClose: { title: "Нет" },
-                submit: async () => {
-                    const response = await this.deleteAdminMaster(id);
-                    if (response.error) {
-                        this.setModalSettings({
-                            title: response.error,
-                        });
-                    } else {
-                        this.setModalSettings({
-                            title: "Успешно удалено!",
-                        });
-                    }
-                    this.setModalSettings({
-                        fields: [],
-                        btnSave: false,
-                        btnClose: { title: "Закрыть" },
-                    });
-                },
-            };
-            this.setModalSettings(params);
-        },
-        getFields(master) {
-            return [
-                {
-                    sort: 1,
-                    type: "text",
-                    name: "name",
-                    label: "Имя",
-                    value: master ? master.name : "",
-                    placeholder: "Введите имя",
-                    required: true,
-                },
-                {
-                    sort: 2,
-                    type: "textarea",
-                    name: "description",
-                    label: "Описание",
-                    value: master ? master.description : "",
-                    placeholder: "Введите описание",
-                },
-                {
-                    sort: 3,
-                    type: "multiselect",
-                    name: "salons",
-                    label: "Привязка к салонам",
-                    value:
-                        master && master.salons
-                            ? createSalonsArr(master.salons)
-                            : [],
-                    options: createSalonsArr(this.salons),
-                    required: true,
-                },
-            ];
-        },
+        ...mapActions(["getAdminMasters", "getAdminSalons"]),
     },
-    async created() {
+    async mounted() {
         if (!this.masters.length) {
             this.loading = true;
             let result = await this.getAdminMasters();
