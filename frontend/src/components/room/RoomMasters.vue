@@ -36,7 +36,7 @@ const modalMaster = new ModalMaster();
             class="btn btn-primary p-1 ms-sm-2"
             @click="() => modalMaster.setModalCreateFromMonitoring()"
         >
-            <dt>+</dt>
+            <dt class="plus-btn-create-master">+</dt>
         </button>
     </div>
 </template>

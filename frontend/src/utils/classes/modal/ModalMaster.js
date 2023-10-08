@@ -67,6 +67,7 @@ class ModalMaster extends Modal {
                 if (findSalon) findSalon.masters.push(result);
             })
             this.store.commit('setSalons', salons);
+            this.store.commit('updateStateSocket');
         }
 
         super.setModalCreate(callback);
