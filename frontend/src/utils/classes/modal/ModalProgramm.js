@@ -1,5 +1,5 @@
 import Modal from './Modal';
-import { createSalonsArr } from '../functions';
+import { createSalonsArr } from '@/utils/functions';
 
 class ModalProgramm extends Modal {
 

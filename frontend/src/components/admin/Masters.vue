@@ -1,7 +1,7 @@
 <script setup>
 import Container from "./Container.vue";
 import ButtonsCard from "./ButtonsCard.vue";
-import ModalMaster from "@/utils/modal/ModalMaster";
+import ModalMaster from "@/utils/classes/modal/ModalMaster";
 const modal = new ModalMaster();
 </script>
 

@@ -1,7 +1,7 @@
 <script setup>
 import Container from "./Container.vue";
 import ButtonsCard from "./ButtonsCard.vue";
-import ModalProgramm from "@/utils/modal/ModalProgramm";
+import ModalProgramm from "@/utils/classes/modal/ModalProgramm";
 const modal = new ModalProgramm();
 </script>
 
