@@ -48,7 +48,10 @@ export default {
             state.modal.fields = params;
         },
         setSalons(state, data) {
-            if (data.salons) state.salons = data.salons;
+            if (data.salons) {
+                state.salons = data.salons;
+                this.state.admin.salons = data.salons;
+            }
         },
         updateRoomForMasters(state, master) {
             state.salons.forEach(s => {

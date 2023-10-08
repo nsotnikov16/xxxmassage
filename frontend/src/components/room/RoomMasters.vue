@@ -1,6 +1,8 @@
 <script setup>
 import Person from "../svg/Person.vue";
 import Multiselect from "vue-multiselect";
+import ModalMaster from "@/utils/classes/modal/ModalMaster";
+const modalMaster = new ModalMaster();
 </script>
 
 <template>
@@ -30,7 +32,12 @@ import Multiselect from "vue-multiselect";
                 <template #noResult> Поиск не дал результатов </template>
             </multiselect>
         </div>
-        <button class="btn btn-primary p-1 ms-sm-2"><dt>+</dt></button>
+        <button
+            class="btn btn-primary p-1 ms-sm-2"
+            @click="() => modalMaster.setModalCreateFromMonitoring()"
+        >
+            <dt>+</dt>
+        </button>
     </div>
 </template>
 

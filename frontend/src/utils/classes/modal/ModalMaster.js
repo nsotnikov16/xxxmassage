@@ -58,6 +58,19 @@ class ModalMaster extends Modal {
             },
         ];
     }
+
+    setModalCreateFromMonitoring() {
+        const callback = (result) => {
+            const salons = [...this.store.state.app.salons];
+            result.salons.forEach(salon => {
+                const findSalon = salons.find(({id}) => id == salon.id);
+                if (findSalon) findSalon.masters.push(result);
+            })
+            this.store.commit('setSalons', salons);
+        }
+
+        super.setModalCreate(callback);
+    }
 }
 
 export default ModalMaster;
