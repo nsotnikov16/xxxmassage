@@ -65,7 +65,7 @@ export default class Modal {
      * Метод вызова модального окна для редактирования сущности
      * @param {function} callback - функция при успешном запросе
      */
-    setModalEdit(entity) {
+    setModalEdit(entity, callback) {
         const params = {
             show: true,
             title: this.title.edit,
