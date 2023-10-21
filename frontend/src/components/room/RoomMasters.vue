@@ -28,6 +28,7 @@ const modalMaster = new ModalMaster();
                 @remove="(val) => changeMaster(val, 'delete')"
                 :disabled="disabled"
                 tag-position="bottom"
+                :max-height="180"
             >
                 <template #noResult> Поиск не дал результатов </template>
             </multiselect>
@@ -55,7 +56,13 @@ export default {
     computed: {
         ...mapGetters(["getEntityBySalonId"]),
         options() {
-            const options = this.getEntityBySalonId(this.salonId, "masters");
+            let options = this.getEntityBySalonId(this.salonId, "masters");
+            options = options.map((item) => ({
+                ...item,
+                name:
+                    item.name +
+                    (item.description ? ` (${item.description})` : ""),
+            }));
             this.updateValue(options);
             return options;
         },

@@ -85,6 +85,20 @@ export const getErrorsValidateForm = (fields) => {
 }
 
 export const protectedRoute = (isAuthorized) => {
-    if (!isAuthorized) router.push({name: 'auth-login'});
+    if (!isAuthorized) router.push({ name: 'auth-login' });
     return isAuthorized;
+}
+
+export const salonsSort = (salons) => {
+    salons.sort((a, b) => {
+        if (a.rooms.length === 0 && b.rooms.length === 0) {
+            return 0;
+        } else if (a.rooms.length === 0) {
+            return 1;
+        } else if (b.rooms.length === 0) {
+            return -1;
+        } else {
+            return 0;
+        }
+    })
 }

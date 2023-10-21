@@ -1,6 +1,6 @@
 
 import { defaultModalParams } from "@/utils/constants";
-import { createDataModal, id } from "@/utils/functions";
+import { createDataModal, id, salonsSort } from "@/utils/functions";
 import { apiUrl } from "@/utils/constants";
 import { handleError } from "@/utils/functions";
 import axios from "axios";
@@ -49,6 +49,7 @@ export default {
         },
         setSalons(state, data) {
             if (data.salons) {
+                salonsSort(data.salons);
                 state.salons = data.salons;
                 this.state.admin.salons = data.salons;
             }

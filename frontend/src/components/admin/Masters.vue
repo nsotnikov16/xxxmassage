@@ -11,7 +11,7 @@ const modal = new ModalMaster();
         :loading="loading"
         :error="error"
         :errorCondition="!masters.length"
-        errorDefault="Мастерицы отсутствуют"
+        errorDefault="Мастера отсутствуют"
         @setModalCreate="() => modal.setModalCreate()"
     >
         <div className="p-3" v-for="master in masters" :key="master.id">
@@ -52,14 +52,12 @@ export default {
     }),
     methods: mapActions(["getAdminMasters", "getAdminSalons"]),
     async mounted() {
-        if (!this.masters.length) {
-            this.loading = true;
-            let result = await this.getAdminMasters();
-            if (result?.error) {
-                this.error = result.error;
-            }
-            this.loading = false;
+        this.loading = true;
+        let result = await this.getAdminMasters();
+        if (result?.error) {
+            this.error = result.error;
         }
+        this.loading = false;
     },
 };
 </script>

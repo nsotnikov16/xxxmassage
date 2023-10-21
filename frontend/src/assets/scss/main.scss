@@ -217,6 +217,10 @@
             }
         }
 
+        &__content-wrapper {
+            z-index: 500;
+        }
+
         @media (max-width: 560px) {
             max-width: initial;
         }

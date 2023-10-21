@@ -23,6 +23,7 @@ import Multiselect from "vue-multiselect";
                 selectedLabel="Выбрано"
                 :show-labels="true"
                 @select="changeProgramm"
+                :max-height="180"
                 @remove="(val) => changeProgramm(val, 'delete')"
             >
                 <template #noResult> Поиск не дал результатов </template>

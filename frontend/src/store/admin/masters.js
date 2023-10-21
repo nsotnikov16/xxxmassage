@@ -7,6 +7,9 @@ export default {
         setAdminMasters(state, data) {
             state.masters = [...state.masters, ...data]
         },
+        setAdminMastersStart(state, data) {
+            state.masters = data
+        },
         updateAdminMaster(state, data) {
             const index = state.masters.findIndex(s => s.id == data.id);
             if (index == -1) return;
@@ -20,12 +23,12 @@ export default {
         async getAdminMasters({ commit }) {
             try {
                 const response = await axios.get(`${apiAdminUrl}/masters`);
-                commit('setAdminMasters', response.data);
+                if (response.data) commit('setAdminMastersStart', response.data);
             } catch (error) {
                 return handleError(error);
             }
         },
-        async updateAdminMaster({ commit }, {id, data}) {
+        async updateAdminMaster({ commit }, { id, data }) {
             try {
                 const response = await axios.put(`${apiAdminUrl}/masters/${id}`, data)
                 commit('updateAdminMaster', response.data);

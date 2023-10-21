@@ -16,7 +16,7 @@ class SalonsService
 
     public function getSalons()
     {
-        $salons = Salon::with(['masters', 'programms', 'rooms'])->whereHas('rooms')->orderByRaw('id')->get();
+        $salons = Salon::with(['masters', 'programms', 'rooms'])/* ->whereHas('rooms') */->orderByRaw('id')->get();
 
         $salons->each(function ($salon) {
             $salon->rooms->each(function ($room) {
