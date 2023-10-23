@@ -3,7 +3,7 @@ const cors = require('cors');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
-    path: '/socket',
+    path: '/socket/',
     cors: {
         origin: "*",
     }
