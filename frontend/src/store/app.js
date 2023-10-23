@@ -12,7 +12,7 @@ export default {
     state: {
         modal: { ...defaultModalParams },
         salons: [],
-        socket: useSocket ? io(process.env.VUE_APP_SOCKET_IO_HOST) : { on: () => { }, emit: () => { } },
+        socket: useSocket ? io(process.env.VUE_APP_SOCKET_IO_HOST, { path: '/socket' }) : { on: () => { }, emit: () => { } },
         appId: id()
     },
     getters: {
